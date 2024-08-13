@@ -49,7 +49,7 @@ export function summarize(dates) {
   for (let data of table) {
     accuracyTotal += data.accuracy ?? 0;
   }
-  const accuracyAve = accuracyTotal / table.length - 1;
+  const accuracyAve = accuracyTotal / table.length;
   const period = table.map((data) => data.period);
 
   const minPeriod = Math.min(...period) - 18;

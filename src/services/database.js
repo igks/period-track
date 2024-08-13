@@ -1,7 +1,7 @@
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { db } from "./fb";
 
-export async function getDate() {
+export async function getLog() {
   const document = await getDoc(doc(db, "period", "dates"));
   const dates = [];
   if (document.exists) {
@@ -12,7 +12,7 @@ export async function getDate() {
   return dates;
 }
 
-export async function updateDate(dates) {
+export async function updateLog(dates) {
   await setDoc(doc(db, "period", "dates"), {
     data: dates,
   });
