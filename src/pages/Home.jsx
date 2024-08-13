@@ -1,19 +1,21 @@
 import { useEffect, useState } from "react";
-import { Navigate } from "react-router-dom";
-import { Button, Col, Container, Row } from "reactstrap";
+import { Link, Navigate } from "react-router-dom";
+import { Col, Container, Row } from "reactstrap";
 import { AddLogModal } from "../components/AddLogModal";
 import { FloatButton } from "../components/FloatButton";
 import { Loader } from "../components/Loader";
+import { Space } from "../components/Space";
 import useFirebaseAuth from "../hooks/useFirebaseAuth";
 import { getLog, updateLog } from "../services/database";
+import { useLog } from "../states/logState";
 import { useUser } from "../states/userState";
 import { CardSummary } from "./../components/CardSummary";
-import { Space } from "./../components/Space";
 import { summarize } from "./../utils/summarize";
 
 export const Home = () => {
-  const { logout } = useFirebaseAuth();
   const { user } = useUser((state) => state);
+  const { setTable } = useLog((state) => state);
+  const { logout } = useFirebaseAuth();
 
   const [dates, setDates] = useState([]);
   const [data, setData] = useState(null);
@@ -31,6 +33,7 @@ export const Home = () => {
   const startCalculation = () => {
     const result = summarize(dates);
     setData(result);
+    setTable(result.table);
     setLoading(false);
   };
 
@@ -50,6 +53,7 @@ export const Home = () => {
 
   useEffect(() => {
     loadRecord();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -76,11 +80,6 @@ export const Home = () => {
           sm="12"
         >
           <CardSummary data={data} />
-          <Space height={20} />
-
-          <Button color="success" size="sm" onClick={logout}>
-            Logout
-          </Button>
         </Col>
       </Row>
       <FloatButton onClick={() => setIsOpenModal(true)} />
@@ -89,6 +88,12 @@ export const Home = () => {
         toggleModal={() => setIsOpenModal(!isOpenModal)}
         onSave={(date) => updateDateHandler(date)}
       />
+      <Space height={20} />
+      <Link to="/detail">Lihat Detail</Link>
+      <Space width={20} height={20} />
+      <Link to="#" onClick={logout}>
+        Logout
+      </Link>
     </Container>
   );
 };

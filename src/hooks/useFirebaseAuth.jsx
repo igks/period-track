@@ -25,10 +25,18 @@ const useFirebaseAuth = () => {
     setLoading(false);
   };
 
+  const checkActiveUser = () => {
+    const currentUser = auth.currentUser;
+    if (currentUser) {
+      setUser(currentUser);
+    }
+  };
+
   return {
     login,
     logout,
     loading,
+    checkActiveUser,
   };
 };
 

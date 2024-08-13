@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 import {
   Button,
@@ -16,19 +16,23 @@ import { useUser } from "../states/userState";
 import { Space } from "./../components/Space";
 
 export const Login = () => {
-  const { login, loading } = useFirebaseAuth();
+  const { login, loading, checkActiveUser } = useFirebaseAuth();
   const { user } = useUser((state) => state);
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  const onLogin = async (e) => {
-    e.preventDefault();
+  const onLogin = async () => {
     if (!username || !password) {
       return;
     }
     await login(username, password);
   };
+
+  useEffect(() => {
+    checkActiveUser();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   if (user) {
     return <Navigate to="/" />;

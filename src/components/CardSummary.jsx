@@ -7,65 +7,66 @@ export const CardSummary = ({ data }) => {
   const normalCycle = [
     {
       label: "Sebelum",
-      date: data.normal.before,
+      value: data.normal.before,
     },
     {
       label: "Ovulasi",
-      date: data.normal.ovulation,
+      value: data.normal.ovulation,
     },
     {
       label: "Setelah",
-      date: data.normal.after,
+      value: data.normal.after,
     },
   ];
   const abnormalCycle = [
     {
       label: "Sebelum",
-      date: data.abnormal.before,
+      value: data.abnormal.before,
     },
     {
       label: "Ovulasi",
-      date: data.abnormal.ovulation,
+      value: data.abnormal.ovulation,
     },
     {
       label: "Setelah",
-      date: data.abnormal.after,
+      value: data.abnormal.after,
     },
   ];
   const statistik = [
     {
       label: "Rata - rata periode", //
-      date: data.periodAve,
+      value: data.periodAve,
     },
     {
       label: "Siklus terpendek",
-      date: data.minPeriod,
+      value: data.minPeriod,
     },
     {
       label: "Siklus terpanjang",
-      date: data.maxPeriod,
+      value: data.maxPeriod,
     },
     {
       label: "Kategori",
-      date: data.category,
+      value: data.category,
     },
     {
       label: "Rata - rata akurasi",
-      date: data.accuracyAve,
+      value: data.accuracyAve,
     },
     {
       label: "Tanggal terakhir",
-      date: dayjs(data.table[data.table.length - 1].after).format(
+      value: dayjs(data.table[data.table.length - 1].after).format(
         "DD MMM YYYY"
       ),
     },
     {
       label: "Tanggal prediksi",
-      date: dayjs(data.table[data.table.length - 1].prediction).format(
+      value: dayjs(data.table[data.table.length - 1].prediction).format(
         "DD MMM YYYY"
       ),
     },
   ];
+
   return (
     <Card
       style={{
@@ -75,6 +76,7 @@ export const CardSummary = ({ data }) => {
     >
       <CardBody>
         <CardTitle tag="h5">Rangkuman</CardTitle>
+        <hr />
         <Space height={10} />
         <CardSubtitle
           className="mb-2 text-muted"

@@ -3,7 +3,7 @@ export const SectionSummary = ({ data = [] }) => {
     <>
       {data.map((d) => (
         <div
-          key={d.date}
+          key={`${d.label}-${d.value}`}
           style={{
             display: "flex",
             flexDirection: "row",
@@ -14,7 +14,7 @@ export const SectionSummary = ({ data = [] }) => {
           }}
         >
           <p style={{ fontSize: 14, margin: 0 }}>{d.label}</p>
-          <p style={{ fontSize: 14, margin: 0 }}>{d.date}</p>
+          <p style={{ fontSize: 14, margin: 0 }}>{d.value}</p>
         </div>
       ))}
     </>
