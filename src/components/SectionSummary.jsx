@@ -1,7 +1,7 @@
 export const SectionSummary = ({ data = [] }) => {
   return (
     <>
-      {data.map((d) => (
+      {data?.map((d) => (
         <div
           key={`${d.label}-${d.value}`}
           style={{

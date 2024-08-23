@@ -14,10 +14,9 @@ import { summarize } from "./../utils/summarize";
 
 export const Home = () => {
   const { user } = useUser((state) => state);
-  const { setTable } = useLog((state) => state);
+  const { sortedData, setSortedData, setTable } = useLog((state) => state);
   const { logout } = useFirebaseAuth();
 
-  const [dates, setDates] = useState([]);
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isOpenModal, setIsOpenModal] = useState(false);
@@ -27,11 +26,11 @@ export const Home = () => {
 
     const res = await getLog();
     const sortedRecord = res.sort((a, b) => b.index - a.index);
-    setDates(sortedRecord);
+    setSortedData(sortedRecord);
   };
 
   const startCalculation = () => {
-    const result = summarize(dates);
+    const result = summarize(sortedData);
     setData(result);
     setTable(result.table);
     setLoading(false);
@@ -41,27 +40,29 @@ export const Home = () => {
     if (!date) return;
     if (!confirm("Apakah yakin ingin menambah data?")) return;
 
-    const index = dates.length + 1;
+    const index = sortedData.length + 1;
     const newDate = {
       index,
       date,
     };
-    const newDates = [newDate, ...dates];
+    const newDates = [newDate, ...sortedData];
     await updateLog(newDates);
     loadRecord();
   };
 
   useEffect(() => {
-    loadRecord();
+    if (sortedData.length == 0) {
+      loadRecord();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
-    if (dates.length !== 0) {
+    if (sortedData.length !== 0) {
       startCalculation();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dates]);
+  }, [sortedData]);
 
   if (!user) {
     return <Navigate to="/login" />;

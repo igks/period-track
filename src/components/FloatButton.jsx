@@ -9,14 +9,12 @@ export const FloatButton = ({ onClick }) => {
         height: 50,
         borderRadius: "100%",
         backgroundColor: "green",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
         color: "white",
+        fontSize: "28px",
       }}
       onClick={onClick}
     >
-      <h2>+</h2>
+      +
     </div>
   );
 };

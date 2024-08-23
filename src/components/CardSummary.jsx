@@ -34,7 +34,26 @@ export const CardSummary = ({ data }) => {
   ];
   const statistik = [
     {
-      label: "Rata - rata periode", //
+      label: "Tanggal terakhir",
+      value: dayjs(data.table[data.table.length - 1].after).format(
+        "DD MMM YYYY"
+      ),
+    },
+    {
+      label: "Tanggal prediksi",
+      value: dayjs(data.table[data.table.length - 1].prediction).format(
+        "DD MMM YYYY"
+      ),
+    },
+    {
+      label: "Rata - rata akurasi",
+      value:
+        data.accuracyAve?.toString()?.charAt(0) == "-"
+          ? `Maju ${data.accuracyAve?.toString()?.charAt(1)} hari`
+          : `Mundur ${data.accuracyAve?.toString()?.charAt(0)} hari`,
+    },
+    {
+      label: "Rata - rata periode",
       value: data.periodAve,
     },
     {
@@ -48,22 +67,6 @@ export const CardSummary = ({ data }) => {
     {
       label: "Kategori",
       value: data.category,
-    },
-    {
-      label: "Rata - rata akurasi",
-      value: data.accuracyAve,
-    },
-    {
-      label: "Tanggal terakhir",
-      value: dayjs(data.table[data.table.length - 1].after).format(
-        "DD MMM YYYY"
-      ),
-    },
-    {
-      label: "Tanggal prediksi",
-      value: dayjs(data.table[data.table.length - 1].prediction).format(
-        "DD MMM YYYY"
-      ),
     },
   ];
 

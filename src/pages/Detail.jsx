@@ -9,6 +9,38 @@ export const Detail = () => {
   const { table } = useLog((state) => state);
   const sortedTable = table.sort((a, b) => a.index - b.index);
 
+  const summaries = [];
+  for (let i = 1; i < sortedTable.length; i++) {
+    summaries.push({
+      data: [
+        {
+          label: "Tgl sebelumnya",
+          value: dayjs(sortedTable[i].after).format("DD MMM YYYY"),
+        },
+        {
+          label: "Tgl aktual",
+          value: dayjs(sortedTable[i - 1].after).format("DD MMM YYYY"),
+        },
+        {
+          label: "Tgl prediksi",
+          value: dayjs(sortedTable[i].prediction).format("DD MMM YYYY"),
+        },
+        {
+          label: "Periode",
+          value: sortedTable[i].period,
+        },
+        {
+          label: "Akurasi",
+          value: sortedTable[i].accuracy
+            ? sortedTable[i].accuracy?.toString()?.charAt(0) == "-"
+              ? `Maju ${sortedTable[i].accuracy?.toString()?.charAt(1)} hari`
+              : `Mundur ${sortedTable[i].accuracy?.toString()?.charAt(0)} hari`
+            : "Akurat",
+        },
+      ],
+    });
+  }
+
   return (
     <Container fluid style={{ paddingBottom: 30 }}>
       <h5>Detail</h5>
@@ -16,33 +48,10 @@ export const Detail = () => {
       <Link to="/">Home</Link>
       <Space height={10} />
 
-      {sortedTable.map((data) => {
-        const summary = [
-          {
-            label: "Tgl sebelumnya",
-            value: dayjs(data.before).format("DD MMM YYYY"),
-          },
-          {
-            label: "Tgl sekarang",
-            value: dayjs(data.after).format("DD MMM YYYY"),
-          },
-          {
-            label: "Periode",
-            value: data.period,
-          },
-          {
-            label: "Prediksi",
-            value: dayjs(data.prediction).format("DD MMM YYYY"),
-          },
-          {
-            label: "Akurasi",
-            value: data.accuracy,
-          },
-        ];
-
+      {summaries.map((summary, index) => {
         return (
           <Card
-            key={data.index}
+            key={`details-${index}`}
             style={{
               width: "18rem",
               padding: "5px",
@@ -50,7 +59,7 @@ export const Detail = () => {
             }}
           >
             <CardBody>
-              <SectionSummary data={summary} />
+              <SectionSummary data={summary.data} />
             </CardBody>
           </Card>
         );
